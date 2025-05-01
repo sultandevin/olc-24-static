@@ -4,12 +4,6 @@ import Classes from "@/components/class/Classes";
 import WhatsappToast from "@/components/class/WhatsappToast";
 
 const Class = async () => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/olclass`, {
-    method: "GET",
-    cache: "no-cache",
-  });
-
-  const classes = await response.json();
   return (
     <>
         <div

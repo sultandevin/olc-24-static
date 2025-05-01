@@ -2,23 +2,17 @@ import Container from "../global/Container";
 import Tag from "../global/Tag";
 import { Calendar, MapPin } from "lucide-react";
 
-const Timeline = async () => {
-  const resOlclass = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/olclass`);
-  const resOlcon = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/olcon`);
-  const olconJSON = await resOlcon.json();
-  const olcon = await olconJSON.olcon;
-  const olclass = await resOlclass.json();
-
+const Timeline = () => {
   return (
     <>
       <Container parentClass="bg-white" className="flex flex-col gap-6">
         <Tag blue>Linimasa</Tag>
         <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <Card objectOlCon={olcon} idx={0} />
-          {olclass.map((item, key) => (
+          <Card idx={0} />
+          {Array.from(2).map((item, key) => (
             <Card objectOlClass={item} idx={key} key={key} smallCard />
           ))}
-          <Card objectOlCon={olcon} idx={1} />
+          <Card idx={1} />
         </div>
       </Container>
     </>
@@ -35,9 +29,9 @@ const Card = ({
   // Create a Date object
   let dateObj;
   if (smallCard) {
-    dateObj = new Date(objectOlClass?.sesi[idx].waktu);
+    dateObj = new Date("2024-10-20T14:30:00"); // Dummy date for OLClass
   } else {
-    dateObj = new Date(objectOlCon.sesi[idx].waktu);
+    dateObj = new Date("2024-10-15T10:00:00"); // Dummy date for OLConvention
   }
 
   // Get the time in HH:mm format
@@ -63,11 +57,7 @@ const Card = ({
       <p
         className={`absolute left-3 top-3 mb-4 w-fit rounded-md ${smallCard ? "bg-custom-blue-light text-black" : "bg-custom-blue-dark text-white"} px-4 py-1 text-sm`}
       >
-        {smallCard
-          ? `Day ${idx + 2}`
-          : idx === 1
-            ? `Day ${idx + 5}`
-            : `Day ${idx + 1}`}
+        {smallCard && `Day ${idx + 2}`}
       </p>
 
       <h1 className={`text-2xl font-semibold`}>
@@ -86,8 +76,8 @@ const Card = ({
           <MapPin className="mr-2 h-4 w-4" />
           <span className="transition duration-300 ease-in-out group-hover:animate-shake-delay">
             {smallCard
-              ? objectOlClass?.sesi[0].platform
-              : objectOlCon?.sesi[idx].Lokasi}
+              ? 'Google Meet'
+              : 'FMIPA UGM'}
           </span>
         </p>
       </div>

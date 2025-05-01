@@ -9,12 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import RegisterButton from "@/components/olcon/RegisterButton";
 
 const OLConDetail = async ({ DAY }) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/olcon`, {
-    cache: "no-cache",
-  });
-  const olconJSON = await response.json();
-  const olcon = olconJSON.olcon;
-  const enrolledAmount = 40 - (await olcon.slots);
+  const enrolledAmount = 40 - (25);
   const progress = (enrolledAmount * 100) / 40;
 
   return (
@@ -46,22 +41,17 @@ const OLConDetail = async ({ DAY }) => {
         </div>
 
         {/* title */}
-        <h1 className="my-8 text-4xl font-bold">{olcon.sesi[DAY].judulSesi}</h1>
+        <h1 className="my-8 text-4xl font-bold">Judul TBA</h1>
 
         {/* main content */}
         <div className="grid w-full grid-cols-1 gap-6 lg:grid-cols-4">
           <div className="flex auto-cols-max flex-col gap-6 sm:flex-row">
             <Avatar
-              nama={olcon.sesi[DAY].mentor?.nama}
-              deskripsi={olcon.sesi[DAY].mentor?.deskripsi}
-              src={olcon.sesi[DAY].mentor?.fotoMentor.url|| "/placeholder.svg"}
-              alt={olcon.mentor?.nama}
             />
 
             {/* ON SMALL SCREENS */}
             <div className="w-full lg:hidden">
               <ClassDescriptionAndProgress
-                classDetail={olcon}
                 DAY={DAY}
                 progress={progress}
               />
@@ -72,21 +62,20 @@ const OLConDetail = async ({ DAY }) => {
             {/* ON LARGE SCREENS */}
             <div className="hidden w-full lg:block">
               <ClassDescriptionAndProgress
-                classDetail={olcon}
                 DAY={DAY}
                 progress={progress}
               />
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {olcon.sesi[DAY].materi.map((session, index) => (
+              {Array.from({ length: 5 }).map((_, index) => (
                 <div
                   className="duration-700 animate-in fade-in slide-in-from-bottom-10"
                   key={index}
                 >
                   <Card
                     sesi={`${index + 1}`}
-                    judul={session.materiJudul}
-                    tanggal={new Date(session.jamBerapa).toLocaleDateString(
+                    judul={'Judul sesi'}
+                    tanggal={new Date("2024-10-20T14:30:00").toLocaleDateString(
                       "id-ID",
                       {
                         day: "2-digit",
@@ -94,14 +83,14 @@ const OLConDetail = async ({ DAY }) => {
                         year: "numeric",
                       },
                     )}
-                    jam={new Date(session.jamBerapa).toLocaleTimeString(
+                    jam={new Date("2024-10-20T14:30:00").toLocaleTimeString(
                       "id-ID",
                       {
                         hour: "2-digit",
                         minute: "2-digit",
                       },
                     )}
-                    tempat={session.tempat}
+                    tempat={'FMIPA UGM'}
                   />
                 </div>
               ))}
@@ -112,9 +101,9 @@ const OLConDetail = async ({ DAY }) => {
     </>
   );
 };
-const ClassDescriptionAndProgress = ({ classDetail, DAY, progress }) => {
+const ClassDescriptionAndProgress = ({ DAY, progress }) => {
   // Create a Date object
-  const dateObj = new Date(classDetail.sesi[DAY].waktu);
+  const dateObj = new Date("2024-10-20T14:30:00");
 
   // Get the time in HH:mm format
   const time = dateObj.toLocaleTimeString("en-GB", {
@@ -137,7 +126,7 @@ const ClassDescriptionAndProgress = ({ classDetail, DAY, progress }) => {
         {/* class description */}
         <div className="flex flex-col *:text-black">
           <h3 className="font-semibold lg:mb-2 lg:text-2xl">Tentang Seminar</h3>
-          <p>{classDetail.sesi[DAY].deskripsi}</p>
+          <p>{`Description for OLCon`}</p>
         </div>
 
         {/* lokasi dan tempat */}
@@ -148,7 +137,7 @@ const ClassDescriptionAndProgress = ({ classDetail, DAY, progress }) => {
           <p>
             {date} {time}
           </p>
-          <p>{classDetail.sesi[DAY].Lokasi}</p>
+          <p>FMIPA UGM</p>
         </div>
       </div>
 
@@ -162,7 +151,7 @@ const ClassDescriptionAndProgress = ({ classDetail, DAY, progress }) => {
           <div className="flex w-full items-center gap-3 lg:w-2/3">
             <Progress value={progress} className="h-6 w-full" />
             <p className="whitespace-nowrap text-nowrap text-lg font-semibold text-black">
-              {40 - classDetail.slots} / 40
+              {40 - 25} / 40
             </p>
           </div>
           <div className="w-full lg:w-1/3">

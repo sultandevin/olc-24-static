@@ -1,19 +1,14 @@
-import Container from "../global/Container";
-import Tag from "../global/Tag";
-import Image from "next/image";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Image from "next/image";
+import Container from "../global/Container";
+import Tag from "../global/Tag";
 
-const Classes = async () => {
-  const responses = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/olclass`, {
-    cache: "no-cache",
-  });
-  const classes = await responses.json();
-
+const Classes = () => {
   return (
     <Container
       parentClass="bg-custom-blue-dark"
@@ -30,16 +25,8 @@ const Classes = async () => {
 
       {/* olclass cards */}
       <div className="flex flex-col gap-6">
-        {classes.map((item) => (
-          <Card
-            label={item.divisi}
-            judul={item.title}
-            nama={item.mentor.nama || "TBA"}
-            description={item.mentor.deskripsi || "TBA"}
-            key={item._id}
-            src={item.mentor.fotoMentor.coverKelas || "/placeholder.svg"}
-            materi={item.sesi.map((sesi) => sesi.judulSesi).join(", ")}
-          />
+        {Array.from({ length: 2 }).map((_, i) => (
+          <Card key={i} />
         ))}
       </div>
     </Container>
@@ -59,15 +46,15 @@ const Card = ({
       {/* wrapper for card and accordion */}
       <div className="flex flex-col gap-2">
         {/*  */}
-        <div className="flex min-h-80 w-full flex-col overflow-hidden rounded-t-2xl sm:min-h-0 sm:h-48 sm:flex-row">
+        <div className="flex min-h-80 w-full flex-col overflow-hidden rounded-t-2xl sm:h-48 sm:min-h-0 sm:flex-row">
           {/* image */}
           <div className="relative h-40 w-full overflow-hidden sm:h-full sm:w-[200px]">
             <Image
-              src={src}
+              src={`/${src}`}
               fill
-              sizes={`100%`}
-              className="object-cover scale-110"
-              alt="Mentor Image "
+              sizes="100%"
+              className="scale-110 object-cover"
+              alt={`Mentor ${nama} Image`}
             />
           </div>
           <div className="flex min-h-40 w-full flex-col justify-between gap-1 bg-custom-blue-darker p-4 text-white sm:h-full sm:w-full">
